@@ -2,15 +2,17 @@
 import hype.*;
 import hype.extended.layout.*;
 import hype.extended.colorist.*;
+import hype.extended.behavior.*;
 
 HDrawablePool pool;
 
 PFont fnt;
 HText txt;
 
+HTimer timer;
 void setup() {
   size(800, 600);
-  H.init(this).background(#2c3e50);
+  H.init(this);
 
   fnt = createFont("Roboto",64);
   txt = new HText("ISQUIP", 200, fnt);
@@ -22,7 +24,7 @@ void setup() {
   ;
   HShapeLayout lay = new HShapeLayout().target(txt);
 
-  pool = new HDrawablePool(1200);
+  pool = new HDrawablePool(800);
   pool.autoAddToStage()
     .add(
       new HEllipse()
@@ -34,19 +36,18 @@ void setup() {
       new HCallback() {
         public void run(Object obj) {
           HEllipse e = (HEllipse) obj;
-          e.size(random(2,8))
+          e.size(random(2,10))
             .anchorAt(H.CENTER)
             .noStroke()
           ;
         }
       }
     )
-
-    .requestAll()
   ;
 
 }
 
 void draw() {
   H.drawStage();
+  pool.request();
 }

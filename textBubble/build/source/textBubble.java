@@ -6,6 +6,7 @@ import processing.opengl.*;
 import hype.*; 
 import hype.extended.layout.*; 
 import hype.extended.colorist.*; 
+import hype.extended.behavior.*; 
 
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -23,14 +24,16 @@ public class textBubble extends PApplet {
 
 
 
+
 HDrawablePool pool;
 
 PFont fnt;
 HText txt;
 
+HTimer timer;
 public void setup() {
   
-  H.init(this).background(0xff2c3e50);
+  H.init(this);
 
   fnt = createFont("Roboto",64);
   txt = new HText("ISQUIP", 200, fnt);
@@ -42,7 +45,7 @@ public void setup() {
   ;
   HShapeLayout lay = new HShapeLayout().target(txt);
 
-  pool = new HDrawablePool(1200);
+  pool = new HDrawablePool(800);
   pool.autoAddToStage()
     .add(
       new HEllipse()
@@ -54,21 +57,21 @@ public void setup() {
       new HCallback() {
         public void run(Object obj) {
           HEllipse e = (HEllipse) obj;
-          e.size(random(2,8))
+          e.size(random(2,10))
             .anchorAt(H.CENTER)
             .noStroke()
           ;
         }
       }
     )
-
-    .requestAll()
   ;
 
-  H.drawStage();
 }
 
-public void draw() {}
+public void draw() {
+  H.drawStage();
+  pool.request();
+}
   public void settings() {  size(800, 600); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "textBubble" };
