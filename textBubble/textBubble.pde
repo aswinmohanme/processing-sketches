@@ -4,13 +4,14 @@ import hype.extended.layout.*;
 import hype.extended.colorist.*;
 import hype.extended.behavior.*;
 
+final int NUMPARTICLES = 800;
 HDrawablePool pool;
 PVector[] finalLoc;
 
 PFont fnt;
 HText txt;
-HDrawable[] drawablePool = new HDrawable[800];
-HTween tween[] = new HTween[800];
+HDrawable[] drawablePool = new HDrawable[NUMPARTICLES];
+HTween tween[] = new HTween[NUMPARTICLES];
 
 void setup() {
   size(800, 600);
@@ -26,12 +27,12 @@ void setup() {
   ;
   final HShapeLayout lay = new HShapeLayout().target(txt);
 
-  finalLoc = new PVector[800];
-  for(int i=0; i < 800; ++i){
+  finalLoc = new PVector[NUMPARTICLES];
+  for(int i=0; i < NUMPARTICLES; ++i){
     finalLoc[i] = lay.getNextPoint();
   }
 
-  pool = new HDrawablePool(800);
+  pool = new HDrawablePool(NUMPARTICLES);
   pool.autoAddToStage()
     .add(
       new HEllipse()
@@ -50,15 +51,15 @@ void setup() {
     )
   ;
 
-  for(int i=0; i < 800; ++i){
+  for(int i=0; i < NUMPARTICLES; ++i){
     drawablePool[i] = pool.request();
     tween[i] = new HTween();
     tween[i].target(drawablePool[i])
       .property(H.LOCATION)
       .start(drawablePool[i].x(), drawablePool[i].y())
       .end(finalLoc[i].x, finalLoc[i].y)
-      .ease(0.03)
-      .spring(0.8)
+      .ease(0.005)
+      .spring(0.9)
     ;
   }
 
@@ -67,4 +68,5 @@ void setup() {
 
 void draw() {
   H.drawStage();
+  // saveFrame("frames/########.png");
 }
