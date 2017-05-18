@@ -42,7 +42,7 @@ void setup() {
       new HCallback() {
         public void run(Object obj) {
           HEllipse e = (HEllipse) obj;
-          e.size(random(2,10))
+          e.size(random(4, 10))
             .noStroke()
           ;
         }
@@ -57,10 +57,12 @@ void setup() {
       .property(H.LOCATION)
       .start(drawablePool[i].x(), drawablePool[i].y())
       .end(finalLoc[i].x, finalLoc[i].y)
-      .ease(0.05)
-      .spring(0.2)
+      .ease(0.03)
+      .spring(0.8)
     ;
   }
+
+
 }
 
 void draw() {
