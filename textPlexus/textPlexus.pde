@@ -22,13 +22,26 @@ float[][] edges;
 PFont fnt;
 HText txt;
 
+boolean shouldUpdate = true;
 void setup() {
-  size(800, 600);
+  size(800, 768);
   H.init(this);
 
-  colors = new HColorPool(#F6B352, #F68657, #383A3F, #1F2124);
+  colors = new HColorPool(#F6B352, #F68657, #383A3F, #1F2124, #1F2124, #1F2124, #1F2124);
   fnt = createFont("Slabo",64);
-  txt = new HText("D", 600, fnt);
+}
+
+void draw() {
+  if (shouldUpdate){
+    H.stage().clear();
+    renderLetter("R", 800, 12);
+    shouldUpdate = false;
+  }
+  H.drawStage();
+}
+
+void renderLetter(String s, int numParticles, int threshold){
+  txt = new HText(s, 600, fnt);
   H.add(txt)
     .anchorAt(H.CENTER)
     .locAt(H.CENTER)
@@ -37,8 +50,8 @@ void setup() {
   ;
   lay = new HShapeLayout().target(txt);
 
-  finalLoc = new PVector[NUMPARTICLES];
-  for(int i=0; i < NUMPARTICLES; ++i){
+  finalLoc = new PVector[numParticles];
+  for(int i=0; i < numParticles; ++i){
     finalLoc[i] = lay.getNextPoint();
     points[i][0] = finalLoc[i].x;
     points[i][1] = finalLoc[i].y;
@@ -50,25 +63,20 @@ void setup() {
   for(int i=0; i < edges.length; ++i){
     textPath[i] = new HPath(LINE);
     dist = HMath.dist(edges[i][0], edges[i][1], edges[i][2], edges[i][3]);
-    if (dist > THRESHOLD){
+    if (dist > threshold){
       continue;
     }
     textPath[i]
       .line(edges[i][0], edges[i][1], edges[i][2], edges[i][3])
       .strokeWeight(2)
       .noFill()
-      .stroke(#8e44ad)
+      .stroke( colors.getColor())
     ;
 
     H.add(textPath[i]);
-  }
-
+    shouldUpdate = true;
 }
-
-void draw() {
-  H.drawStage();
 }
-
 void saveVector(){
   PGraphics tmp = null;
   tmp = beginRecord(PDF,"render.pdf");

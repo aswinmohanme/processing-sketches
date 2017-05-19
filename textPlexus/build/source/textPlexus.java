@@ -45,13 +45,26 @@ float[][] edges;
 PFont fnt;
 HText txt;
 
+boolean shouldUpdate = true;
 public void setup() {
   
   H.init(this);
 
-  colors = new HColorPool(0xffF6B352, 0xffF68657, 0xff383A3F, 0xff1F2124);
+  colors = new HColorPool(0xffF6B352, 0xffF68657, 0xff383A3F, 0xff1F2124, 0xff1F2124, 0xff1F2124, 0xff1F2124);
   fnt = createFont("Slabo",64);
-  txt = new HText("D", 600, fnt);
+}
+
+public void draw() {
+  if (shouldUpdate){
+    H.stage().clear();
+    renderLetter("R", 800, 12);
+    shouldUpdate = false;
+  }
+  H.drawStage();
+}
+
+public void renderLetter(String s, int numParticles, int threshold){
+  txt = new HText(s, 600, fnt);
   H.add(txt)
     .anchorAt(H.CENTER)
     .locAt(H.CENTER)
@@ -60,8 +73,8 @@ public void setup() {
   ;
   lay = new HShapeLayout().target(txt);
 
-  finalLoc = new PVector[NUMPARTICLES];
-  for(int i=0; i < NUMPARTICLES; ++i){
+  finalLoc = new PVector[numParticles];
+  for(int i=0; i < numParticles; ++i){
     finalLoc[i] = lay.getNextPoint();
     points[i][0] = finalLoc[i].x;
     points[i][1] = finalLoc[i].y;
@@ -73,26 +86,20 @@ public void setup() {
   for(int i=0; i < edges.length; ++i){
     textPath[i] = new HPath(LINE);
     dist = HMath.dist(edges[i][0], edges[i][1], edges[i][2], edges[i][3]);
-    if (dist > THRESHOLD){
+    if (dist > threshold){
       continue;
     }
     textPath[i]
       .line(edges[i][0], edges[i][1], edges[i][2], edges[i][3])
       .strokeWeight(2)
       .noFill()
-      .stroke(0xff8e44ad)
+      .stroke( colors.getColor())
     ;
 
     H.add(textPath[i]);
-  }
-
+    shouldUpdate = true;
 }
-
-public void draw() {
-  txt = new HText("E", 600, fnt);
-  H.drawStage();
 }
-
 public void saveVector(){
   PGraphics tmp = null;
   tmp = beginRecord(PDF,"render.pdf");
@@ -103,7 +110,7 @@ public void saveVector(){
   endRecord();
   }
 }
-  public void settings() {  size(800, 600); }
+  public void settings() {  size(800, 768); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "textPlexus" };
     if (passedArgs != null) {
