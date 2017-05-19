@@ -44,7 +44,7 @@ void setup() {
   String letter;
   for(int i=0; i < 26; ++i){
     letter = str(alphabets[i]);
-    renderLetter(letter, 800, 12);
+    renderLetter(letter, NUMPARTICLES, (int)THRESHOLD);
   }
 }
 
@@ -95,7 +95,8 @@ void renderLetter(String s, int numParticles, int threshold){
 
     H.add(textPath[i]);
   }
-    saveVector(s+".pdf");
+
+  saveVector("render/"+s+".pdf");
   for(int i=0; i < edges.length; ++i){
     H.remove(textPath[i]);
   }
