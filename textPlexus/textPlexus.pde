@@ -6,8 +6,8 @@ import hype.extended.behavior.*;
 import megamu.mesh.*;
 import processing.pdf.*;
 
-final int NUMPARTICLES = 80;
-final float THRESHOLD = 120;
+final int NUMPARTICLES = 800;
+final float THRESHOLD = 16;
 HColorPool colors;
 PVector[] finalLoc;
 float[][] points = new float[NUMPARTICLES][2];
@@ -19,8 +19,8 @@ void setup() {
   size(800, 600);
   H.init(this);
   colors = new HColorPool(#F6B352, #F68657, #383A3F, #1F2124);
-  fnt = createFont("Roboto",64);
-  txt = new HText("S", 600, fnt);
+  fnt = createFont("Slabo",64);
+  txt = new HText("D", 600, fnt);
    H.add(txt)
     .anchorAt(H.CENTER)
     .locAt(H.CENTER)
@@ -45,9 +45,9 @@ void setup() {
     dist = HMath.dist(edges[i][0], edges[i][1], edges[i][2], edges[i][3]);
     textPath[i]
       .line(edges[i][0], edges[i][1], edges[i][2], edges[i][3])
-      .strokeWeight(4)
+      .strokeWeight(2)
       .noFill()
-      .stroke(colors.getColor())
+      .stroke(#8e44ad)
     ;
     if (dist > THRESHOLD){
       continue;
