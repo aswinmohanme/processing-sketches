@@ -26,6 +26,7 @@ float[][] edges;
 
 PFont fnt;
 HText txt;
+HCanvas letterCanvas;
 
 boolean shouldUpdate = true;
 void setup() {
@@ -35,11 +36,16 @@ void setup() {
 
   // controlP5 = new ControlP5(this);
   // controlP5.addSlider("partSlider", 0, 1000, 800, 600,  50, 100, 10);
+
   colors = new HColorPool(#F6B352, #F68657, #383A3F, #1F2124, #1F2124, #1F2124 );
   fnt = createFont("Slabo",64);
 
-  renderLetter("H", 800, 12);
-  saveVector();
+  char[] alphabets = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+  String letter;
+  for(int i=0; i < 26; ++i){
+    letter = str(alphabets[i]);
+    renderLetter(letter, 800, 12);
+  }
 }
 
 void draw() {
@@ -88,12 +94,19 @@ void renderLetter(String s, int numParticles, int threshold){
     ;
 
     H.add(textPath[i]);
-    shouldUpdate = true;
+  }
+    saveVector(s+".pdf");
+  for(int i=0; i < edges.length; ++i){
+    H.remove(textPath[i]);
   }
 }
-void saveVector(){
+
+void removePoints(){
+}
+
+void saveVector(String fileName){
   PGraphics tmp = null;
-  tmp = beginRecord(PDF,"render.pdf");
+  tmp = beginRecord(PDF,fileName);
   if (tmp == null){
     H.drawStage();
   } else {
