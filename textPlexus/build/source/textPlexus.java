@@ -8,6 +8,7 @@ import hype.extended.layout.*;
 import hype.extended.colorist.*; 
 import hype.extended.behavior.*; 
 import megamu.mesh.*; 
+import processing.pdf.*; 
 
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -27,7 +28,9 @@ public class textPlexus extends PApplet {
 
 
 
+
 final int NUMPARTICLES = 80;
+final float THRESHOLD = 120;
 HColorPool colors;
 PVector[] finalLoc;
 float[][] points = new float[NUMPARTICLES][2];
@@ -40,7 +43,7 @@ public void setup() {
   H.init(this);
   colors = new HColorPool(0xffF6B352, 0xffF68657, 0xff383A3F, 0xff1F2124);
   fnt = createFont("Roboto",64);
-  txt = new HText("R", 600, fnt);
+  txt = new HText("S", 600, fnt);
    H.add(txt)
     .anchorAt(H.CENTER)
     .locAt(H.CENTER)
@@ -58,24 +61,40 @@ public void setup() {
   Delaunay del = new Delaunay(points);
 
   float[][] edges = del.getEdges();
+  float dist;
   HPath[] textPath = new HPath[edges.length];
   for(int i=0; i < edges.length; ++i){
     textPath[i] = new HPath(LINE);
+    dist = HMath.dist(edges[i][0], edges[i][1], edges[i][2], edges[i][3]);
     textPath[i]
       .line(edges[i][0], edges[i][1], edges[i][2], edges[i][3])
-      .strokeWeight(2)
+      .strokeWeight(4)
       .noFill()
-      .stroke( colors.getColor() )
+      .stroke(colors.getColor())
     ;
+    if (dist > THRESHOLD){
+      continue;
+    }
 
     H.add(textPath[i]);
   }
 
+  saveVector();
   H.drawStage();
 }
 
 public void draw() {
-  // saveFrame("frames/########.png");
+}
+
+public void saveVector(){
+  PGraphics tmp = null;
+  tmp = beginRecord(PDF,"render.pdf");
+  if (tmp == null){
+    H.drawStage();
+  } else {
+    H.stage().paintAll(tmp, false, 1);
+  endRecord();
+  }
 }
   public void settings() {  size(800, 600); }
   static public void main(String[] passedArgs) {
