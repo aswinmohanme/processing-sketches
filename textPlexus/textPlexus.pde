@@ -30,9 +30,10 @@ HCanvas letterCanvas;
 
 boolean shouldUpdate = true;
 void setup() {
-  size(800, 768);
+  size(800, 600);
+  frame.setResizable(true);
   smooth();
-  H.init(this).autoClears();
+  H.init(this);
 
   // controlP5 = new ControlP5(this);
   // controlP5.addSlider("partSlider", 0, 1000, 800, 600,  50, 100, 10);
@@ -40,9 +41,9 @@ void setup() {
   colors = new HColorPool(#F6B352, #F68657, #383A3F, #1F2124, #1F2124, #1F2124 );
   fnt = createFont("Slabo",64);
 
-  char[] alphabets = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+  char[] alphabets = "~!@#$%^&*()_+".toCharArray();
   String letter;
-  for(int i=0; i < 26; ++i){
+  for(int i=0; i < alphabets.length; ++i){
     letter = str(alphabets[i]);
     renderLetter(letter, NUMPARTICLES, (int)THRESHOLD);
   }
@@ -63,11 +64,12 @@ void controlEvent(ControlEvent event){
 void renderLetter(String s, int numParticles, int threshold){
   txt = new HText(s, 600, fnt);
   H.add(txt)
-    .anchorAt(H.CENTER)
-    .locAt(H.CENTER)
+    // .anchorAt(H.CENTER)
+    // .locAt(H.CENTER)
     .noStroke()
     .noFill()
   ;
+  frame.setSize((int)txt.width(), (int)txt.height());
   lay = new HShapeLayout().target(txt);
 
   finalLoc = new PVector[numParticles];
