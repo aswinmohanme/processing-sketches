@@ -17,8 +17,8 @@ void setup() {
   size(800, 600);
   H.init(this);
 
-  fnt = createFont("Roboto",64);
-  txt = new HText("ISQUIP", 200, fnt);
+  fnt = createFont("Roboto Mono",64);
+  txt = new HText("Malavika", 150, fnt);
    H.add(txt)
     .anchorAt(H.CENTER)
     .locAt(H.CENTER)
@@ -37,14 +37,14 @@ void setup() {
     .add(
       new HEllipse()
     )
-    .layout(new HShapeLayout().target(new HRect(width, height)))
     .colorist(new HColorPool(#e74c3c, #f1c40f, #2980b9, #27ae60, #16a085, #8e44ad).fillOnly())
     .onCreate(
       new HCallback() {
         public void run(Object obj) {
           HEllipse e = (HEllipse) obj;
-          e.size(random(4, 10))
+          e.size(random(4, 8))
             .noStroke()
+            .loc(random(random(-50), random(850)), random(random(-50), random(650)))
           ;
         }
       }
@@ -68,5 +68,5 @@ void setup() {
 
 void draw() {
   H.drawStage();
-  // saveFrame("frames/########.png");
+  saveFrame("frames/2########.png");
 }
