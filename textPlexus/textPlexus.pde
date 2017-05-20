@@ -12,7 +12,7 @@ import controlP5.*;
 ControlP5 controlP5;
 
 final int NUMPARTICLES = 800;
-final float THRESHOLD = 16;
+final float THRESHOLD = 12;
 
 HColorPool colors;
 HShapeLayout lay;
@@ -32,7 +32,7 @@ boolean shouldUpdate = true;
 void setup() {
   size(800, 768);
   smooth();
-  H.init(this);
+  H.init(this).autoClears();
 
   // controlP5 = new ControlP5(this);
   // controlP5.addSlider("partSlider", 0, 1000, 800, 600,  50, 100, 10);
