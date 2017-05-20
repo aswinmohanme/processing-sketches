@@ -12,7 +12,7 @@ import controlP5.*;
 ControlP5 controlP5;
 
 final int NUMPARTICLES = 800;
-final float THRESHOLD = 12;
+final float THRESHOLD = 16;
 
 HColorPool colors;
 HShapeLayout lay;
@@ -41,7 +41,7 @@ void setup() {
   colors = new HColorPool(#F6B352, #F68657, #383A3F, #1F2124, #1F2124, #1F2124 );
   fnt = createFont("Slabo",64);
 
-  char[] alphabets = "~!@#$%^&*()_+".toCharArray();
+  char[] alphabets = "~!@#$%^&*()_+`1234567890-=[]'\\,./<>?|\";:}{qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM".toCharArray();
   String letter;
   for(int i=0; i < alphabets.length; ++i){
     letter = str(alphabets[i]);
