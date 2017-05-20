@@ -1,75 +1,51 @@
 
-import processing.pdf.*;
-
+import processing.svg.*;
 import hype.*;
 import hype.extended.layout.*;
 import hype.extended.colorist.*;
 import hype.extended.behavior.*;
-
 import megamu.mesh.*;
-
-import controlP5.*;
-ControlP5 controlP5;
 
 final int NUMPARTICLES = 800;
 final float THRESHOLD = 16;
-
 HColorPool colors;
 HShapeLayout lay;
 HPath[] textPath;
 Delaunay del;
-
 PVector[] finalLoc;
 float dist;
 float[][] points = new float[NUMPARTICLES][2];
 float[][] edges;
-
 PFont fnt;
 HText txt;
 HCanvas letterCanvas;
-
 boolean shouldUpdate = true;
+
+
 void setup() {
-  size(800, 600);
-  frame.setResizable(true);
+  size(800, 800);
   smooth();
   H.init(this);
-
-  // controlP5 = new ControlP5(this);
-  // controlP5.addSlider("partSlider", 0, 1000, 800, 600,  50, 100, 10);
 
   colors = new HColorPool(#F6B352, #F68657, #383A3F, #1F2124, #1F2124, #1F2124 );
   fnt = createFont("Slabo",64);
 
   char[] alphabets = "~!@#$%^&*()_+`1234567890-=[]'\\,./<>?|\";:}{qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM".toCharArray();
-  String letter;
+  String letter = "a";
   for(int i=0; i < alphabets.length; ++i){
     letter = str(alphabets[i]);
     renderLetter(letter, NUMPARTICLES, (int)THRESHOLD);
   }
 }
 
-void draw() {
-  H.drawStage();
-}
-
-void controlEvent(ControlEvent event){
-  if(event.isController()){
-    if(event.getController().getLabel() == "partSlider"){
-      shouldUpdate = true;
-    }
-  }
-}
-
 void renderLetter(String s, int numParticles, int threshold){
   txt = new HText(s, 600, fnt);
   H.add(txt)
-    // .anchorAt(H.CENTER)
-    // .locAt(H.CENTER)
+    .anchorAt(H.CENTER)
+    .locAt(H.CENTER)
     .noStroke()
     .noFill()
   ;
-  frame.setSize((int)txt.width(), (int)txt.height());
   lay = new HShapeLayout().target(txt);
 
   finalLoc = new PVector[numParticles];
@@ -97,19 +73,17 @@ void renderLetter(String s, int numParticles, int threshold){
 
     H.add(textPath[i]);
   }
-
-  saveVector("render/"+s+".pdf");
-  for(int i=0; i < edges.length; ++i){
+  saveVector("render/"+s+".svg");
+  for(int i=0; i < textPath.length; ++i){
     H.remove(textPath[i]);
   }
+  H.remove(txt);
 }
 
-void removePoints(){
-}
 
 void saveVector(String fileName){
   PGraphics tmp = null;
-  tmp = beginRecord(PDF,fileName);
+  tmp = beginRecord(SVG,fileName);
   if (tmp == null){
     H.drawStage();
   } else {
