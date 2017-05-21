@@ -30,12 +30,18 @@ void setup() {
   colors = new HColorPool(#F6B352, #F68657, #383A3F, #1F2124, #1F2124, #1F2124 );
   fnt = createFont("Slabo",64);
 
-  char[] alphabets = "~!@#$%^&*()_+`1234567890-=[]'\\,./<>?|\";:}{qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM".toCharArray();
+  char[] alphabets = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM".toCharArray();
   String letter = "a";
   for(int i=0; i < alphabets.length; ++i){
     letter = str(alphabets[i]);
     renderLetter(letter, NUMPARTICLES, (int)THRESHOLD);
   }
+  alphabets = "~!@#$%^&*()_+{}:|<>?/.,;\\][=-0987654321`\'\"]".toCharArray();
+  for(int i=0; i < alphabets.length; ++i){
+    letter = str(alphabets[i]);
+    renderLetter(letter, 800, (int)12);
+  }
+
 }
 
 void renderLetter(String s, int numParticles, int threshold){
@@ -73,11 +79,11 @@ void renderLetter(String s, int numParticles, int threshold){
 
     H.add(textPath[i]);
   }
+  H.remove(txt);
   saveVector("render/"+s+".svg");
   for(int i=0; i < textPath.length; ++i){
     H.remove(textPath[i]);
   }
-  H.remove(txt);
 }
 
 
