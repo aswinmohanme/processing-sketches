@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class MarlinMonroe_Circles extends PApplet {
+public class Circle_Pixel extends PApplet {
 
 
 /*
@@ -42,10 +42,10 @@ public void setup() {
     ;
 
     // Load the Image and the Colors
-    img = new HImage("Marlin.gif");
+    img = new HImage("m.jpg");
     colors = new HPixelColorist(img);
 
-    int radius = 10;
+    int radius = 20;
     int padding = 10;
     int numberShapesX = width / ((radius+padding));
     int numberShapesY = height / ((radius+padding));
@@ -77,7 +77,7 @@ public void keyPressed() {
 }
   public void settings() {  size(640 , 904); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "MarlinMonroe_Circles" };
+    String[] appletArgs = new String[] { "Circle_Pixel" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

@@ -22,10 +22,10 @@ void setup() {
     ;
 
     // Load the Image and the Colors
-    img = new HImage("Marlin.gif");
+    img = new HImage("m.jpg");
     colors = new HPixelColorist(img);
 
-    int radius = 10;
+    int radius = 20;
     int padding = 10;
     int numberShapesX = width / ((radius+padding));
     int numberShapesY = height / ((radius+padding));
